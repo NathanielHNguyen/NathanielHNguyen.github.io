@@ -1,0 +1,9 @@
+[
+  {
+    "title": "Canyon Racer (Unity)",
+    "description": "Arcade spaceship racing demo with spawning + UI systems.",
+    "tags": ["Unity", "C#", "3D"],
+    "repoUrl": "https://github.com/YOURUSERNAME/canyon-racer",
+    "videoUrl": "https://github.com/YOURUSERNAME/canyon-racer/releases/download/v1.0/demo.mp4"
+  }
+]
