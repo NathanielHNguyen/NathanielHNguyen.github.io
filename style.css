@@ -7,12 +7,14 @@
 }
 
 * { box-sizing: border-box; }
+
 body {
   margin: 0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-  background: radial-gradient(1000px 500px at 15% 10%, rgba(90,120,255,0.20), transparent),
-              radial-gradient(800px 400px at 80% 20%, rgba(255,90,200,0.16), transparent),
-              var(--bg);
+  background:
+    radial-gradient(1000px 500px at 15% 10%, rgba(90,120,255,0.20), transparent),
+    radial-gradient(800px 400px at 80% 20%, rgba(255,90,200,0.16), transparent),
+    var(--bg);
   color: var(--text);
 }
 
@@ -59,8 +61,12 @@ h1 { margin: 0; font-size: 40px; letter-spacing: -0.5px; }
   backdrop-filter: blur(8px);
   cursor: pointer;
   transition: transform 120ms ease, background 120ms ease;
+  color: var(--text);
 }
+
 .card:hover { transform: translateY(-2px); background: rgba(18,26,42,0.95); }
+
+.card-link { text-decoration: none; cursor: pointer; }
 
 .card-title { margin: 0 0 6px; font-size: 18px; }
 .card-desc { margin: 0 0 12px; color: var(--muted); line-height: 1.35; }
@@ -76,7 +82,8 @@ h1 { margin: 0; font-size: 40px; letter-spacing: -0.5px; }
 }
 
 .actions { display: flex; gap: 10px; flex-wrap: wrap; }
-.actions a {
+
+.actions a, .fake-btn {
   font-size: 14px;
   color: var(--text);
   text-decoration: none;
@@ -84,9 +91,45 @@ h1 { margin: 0; font-size: 40px; letter-spacing: -0.5px; }
   background: rgba(255,255,255,0.06);
   padding: 8px 10px;
   border-radius: 10px;
+  display: inline-block;
 }
-.actions a:hover { background: rgba(255,255,255,0.10); }
 
+.actions a:hover, .fake-btn:hover { background: rgba(255,255,255,0.10); }
+
+/* ---- "Tabs" nav (now real page links) ---- */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  color: var(--text);
+  text-decoration: none;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 14px;
+  display: inline-block;
+}
+
+.tab:hover { background: rgba(255,255,255,0.10); }
+
+.tab.active {
+  background: rgba(255,255,255,0.14);
+  border-color: rgba(255,255,255,0.20);
+}
+
+.footer {
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  padding-top: 18px;
+}
+
+/* ---- Modal video player ---- */
 .modal {
   position: fixed; inset: 0;
   background: rgba(0,0,0,0.6);
@@ -95,7 +138,9 @@ h1 { margin: 0; font-size: 40px; letter-spacing: -0.5px; }
   justify-content: center;
   padding: 18px;
 }
+
 .modal.open { display: flex; }
+
 .modal-content {
   width: min(1000px, 100%);
   background: rgba(18,26,42,0.95);
@@ -103,6 +148,7 @@ h1 { margin: 0; font-size: 40px; letter-spacing: -0.5px; }
   border-radius: 18px;
   overflow: hidden;
 }
+
 .modal-header {
   display: flex;
   justify-content: space-between;
@@ -110,7 +156,9 @@ h1 { margin: 0; font-size: 40px; letter-spacing: -0.5px; }
   padding: 14px 16px;
   border-bottom: 1px solid var(--border);
 }
+
 .modal-header h3 { margin: 0; font-size: 18px; }
+
 .close-btn {
   border: 1px solid var(--border);
   background: rgba(255,255,255,0.06);
@@ -119,13 +167,61 @@ h1 { margin: 0; font-size: 40px; letter-spacing: -0.5px; }
   border-radius: 10px;
   cursor: pointer;
 }
+
 .close-btn:hover { background: rgba(255,255,255,0.10); }
 
 .video-wrap { padding: 14px 16px 18px; }
-video { width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--border); }
 
-.footer {
-  border-top: 1px solid var(--border);
-  color: var(--muted);
-  padding-top: 18px;
+video {
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+
+.external-links a {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.35);
+  color: var(--text);
+  font-weight: 500;
+}
+
+.external-links a:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+/* Navigation tabs (Home / Projects / About) */
+.nav-tabs {
+  margin-top: 20px;
+  padding: 6px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.nav-tabs .tab {
+  background: transparent;
+  border: none;
+  padding: 10px 18px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.nav-tabs .tab.active {
+  background: linear-gradient(
+    135deg,
+    rgba(120,160,255,0.35),
+    rgba(200,120,255,0.35)
+  );
+  color: #fff;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.25) inset;
+}
+
+.nav-tabs .tab:hover:not(.active) {
+  background: rgba(255,255,255,0.10);
+}
+
+.nav-tabs .tab {
+  cursor: pointer;
 }

@@ -1,9 +1,32 @@
+// Year in footer on every page
+const yearEl = document.getElementById("year");
+if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+// Only run project logic on the Projects page
 const projectsEl = document.getElementById("projects");
-document.getElementById("year").textContent = new Date().getFullYear();
+if (projectsEl) {
+  loadProjects().catch(err => {
+    projectsEl.innerHTML = `
+      <p style="color:#ffb4b4;">
+        Failed to load projects: ${escapeHtml(err.message)}
+      </p>
+    `;
+  });
+}
 
 async function loadProjects() {
   const res = await fetch("projects/project-data.json");
   const projects = await res.json();
+
+  if (!Array.isArray(projects) || projects.length === 0) {
+    projectsEl.innerHTML = `
+      <div class="card" style="cursor:default;">
+        <h3 class="card-title">No projects yet</h3>
+        <p class="card-desc">Add projects to <code>projects/project-data.json</code>.</p>
+      </div>
+    `;
+    return;
+  }
 
   projectsEl.innerHTML = projects.map((p, idx) => `
     <article class="card" data-idx="${idx}">
@@ -41,9 +64,11 @@ function openModal(project) {
 function closeModal() {
   const modal = document.getElementById("modal");
   if (!modal) return;
+
   const video = modal.querySelector("video");
   video.pause();
   video.src = "";
+
   modal.classList.remove("open");
 }
 
@@ -66,12 +91,13 @@ function getOrCreateModal() {
     </div>
   `;
 
-  modal.addEventListener("click", (e) => {
+  modal.addEventListener("click", e => {
     if (e.target === modal) closeModal();
   });
+
   modal.querySelector(".close-btn").addEventListener("click", closeModal);
 
-  document.addEventListener("keydown", (e) => {
+  document.addEventListener("keydown", e => {
     if (e.key === "Escape") closeModal();
   });
 
@@ -87,7 +113,3 @@ function escapeHtml(str) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 }
-
-loadProjects().catch(err => {
-  projectsEl.innerHTML = `<p style="color:#ffb4b4;">Failed to load projects: ${escapeHtml(err.message)}</p>`;
-});
